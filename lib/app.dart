@@ -13,12 +13,12 @@ class App extends StatefulWidget{
 }
 class AppState extends State<App>{
   int counter = 0;
-
+  List<ImageModel> images = [];
   void fetchImage () async {
     counter++;
     var response = await get('https://jsonplacehoder.typicode.com/photos/$counter');
     var imageModel = ImageModel.fromJson(json.decode(response.body));
-
+    images.add(imageModel);
   }
   @override
   Widget build(BuildContext context) {
