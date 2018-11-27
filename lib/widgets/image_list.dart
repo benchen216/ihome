@@ -6,7 +6,6 @@ class ImageList extends StatelessWidget{
   ImageList(this.images);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return ListView.builder(
       itemCount: images.length,
       itemBuilder: (context, int index){
