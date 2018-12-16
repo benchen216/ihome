@@ -4,11 +4,11 @@ import 'models/image_model.dart';
 import 'widgets/image_list.dart';
 import 'package:http/http.dart' show get;
 
-class App extends StatefulWidget{
+class MyApp extends StatefulWidget{
   final drawerItems = [
-    new DrawerItem("Fragment 1", Icons.rss_feed),
-    new DrawerItem("Fragment 2", Icons.local_pizza),
-    new DrawerItem("Fragment 3", Icons.info)
+    new DrawerItem("Fragment 1", Icons.info),
+    new DrawerItem("Fragment 2", Icons.local_see),
+    new DrawerItem("Fragment 3", Icons.inbox)
   ];
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +24,7 @@ class DrawerItem {
   IconData icon;
   DrawerItem(this.title, this.icon);
 }
-class AppState extends State<App>{
+class AppState extends State<MyApp>{
   int counter = 0;
   List<ImageModel> images = [];
   void fetchImage () async {
@@ -58,18 +58,28 @@ class AppState extends State<App>{
           onPressed: fetchImage,
         ),
         appBar: AppBar(
-          backgroundColor: Color(0xFF673AB7),
-          title: Text("here"),
+          backgroundColor: Color(0xff5c6bc0),
+          title: Text("Sranko"),
         ),
           drawer: new Drawer(
-            child: new Column(
-              children: <Widget>[
-                new UserAccountsDrawerHeader(
-                    accountName: new Text("John Doe"), accountEmail: null),
-                new Column(children: drawerOptions)
-              ],
+            child: Container(
+              color: Color(0xFFF3E5F5),
+              child: new Column(
+                children: <Widget>[
+                  new UserAccountsDrawerHeader(
+                      accountName: new Text("beta test"), accountEmail: null,decoration: BoxDecoration(
+                    color: const Color(0xFFE1BEE7),
+                    image: DecorationImage(
+                      image: ExactAssetImage('images/flowers.jpeg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ), ),
+                  new Column(children: drawerOptions)
+                ],
+              ),
             ),
-          )
+            ),
+        bottomNavigationBar: Text(""),
       ),
     );
   }
