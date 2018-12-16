@@ -1,12 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:myflutter/fragments/first_fragment.dart';
+import 'package:myflutter/fragments/login_screen.dart';
+import 'package:myflutter/fragments/second_fragment.dart';
+import 'package:myflutter/fragments/third_fragment.dart';
+import 'package:myflutter/fragments/wellcome.dart';
 import 'models/image_model.dart';
 import 'widgets/image_list.dart';
 import 'package:http/http.dart' show get;
 
 class MyApp extends StatefulWidget{
   final drawerItems = [
-    new DrawerItem("Fragment 1", Icons.info),
+    new DrawerItem("歡迎畫面", Icons.home),
+    new DrawerItem("登陸", Icons.arrow_back),
+    new DrawerItem("建立帳號", Icons.add),
     new DrawerItem("Fragment 2", Icons.local_see),
     new DrawerItem("Fragment 3", Icons.inbox)
   ];
@@ -25,6 +32,24 @@ class DrawerItem {
   DrawerItem(this.title, this.icon);
 }
 class AppState extends State<MyApp>{
+  int _selectedDrawerIndex = 0;
+  _getDrawerItemWidget(int pos) {
+    switch (pos) {
+      case 0:
+        return new Wellcome();
+      case 1:
+        return new LoginScreen();
+      case 2:
+        return new ThirdFragment();
+
+      default:
+        return new Text("Error");
+    }
+  }
+  _onSelectItem(int index) {
+    setState(() => _selectedDrawerIndex = index);
+    Navigator.of(context).pop(); // close the drawer
+  }
   int counter = 0;
   List<ImageModel> images = [];
   void fetchImage () async {
@@ -45,14 +70,14 @@ class AppState extends State<MyApp>{
           new ListTile(
             leading: new Icon(d.icon),
             title: new Text(d.title),
-            //selected: i == _selectedDrawerIndex,
-            //onTap: () => _onSelectItem(i),
+            selected: i == _selectedDrawerIndex,
+            onTap: () => _onSelectItem(i),
           )
       );
     }
     return MaterialApp(
       home: Scaffold(
-        body: ImageList(images),
+        body: _getDrawerItemWidget(_selectedDrawerIndex),//ImageList(images),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: fetchImage,
@@ -70,7 +95,7 @@ class AppState extends State<MyApp>{
                       accountName: new Text("beta test"), accountEmail: null,decoration: BoxDecoration(
                     color: const Color(0xFFE1BEE7),
                     image: DecorationImage(
-                      image: ExactAssetImage('images/flowers.jpeg'),
+                      image: ExactAssetImage('images/flowers.png'),
                       fit: BoxFit.cover,
                     ),
                   ), ),
