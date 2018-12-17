@@ -1,10 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:myflutter/fab_bottom_app_bar.dart';
+import 'package:myflutter/fab_with_icons.dart';
 import 'package:myflutter/fragments/first_fragment.dart';
 import 'package:myflutter/fragments/login_screen.dart';
+import 'package:myflutter/fragments/register_screen.dart';
 import 'package:myflutter/fragments/second_fragment.dart';
+import 'package:myflutter/fragments/slidertest.dart';
 import 'package:myflutter/fragments/third_fragment.dart';
 import 'package:myflutter/fragments/wellcome.dart';
+import 'package:myflutter/layout.dart';
 import 'models/image_model.dart';
 import 'widgets/image_list.dart';
 import 'package:http/http.dart' show get;
@@ -14,6 +19,7 @@ class MyApp extends StatefulWidget{
     new DrawerItem("歡迎畫面", Icons.home),
     new DrawerItem("登陸", Icons.arrow_back),
     new DrawerItem("建立帳號", Icons.add),
+    new DrawerItem("個人資料", Icons.person),
     new DrawerItem("Fragment 2", Icons.local_see),
     new DrawerItem("Fragment 3", Icons.inbox)
   ];
@@ -32,6 +38,19 @@ class DrawerItem {
   DrawerItem(this.title, this.icon);
 }
 class AppState extends State<MyApp>{
+  String _lastSelected = 'TAB: 0';
+
+  void _selectedTab(int index) {
+    setState(() {
+      _lastSelected = 'TAB: $index';
+    });
+  }
+
+  void _selectedFab(int index) {
+    setState(() {
+      _lastSelected = 'FAB: $index';
+    });
+  }
   int _selectedDrawerIndex = 0;
   _getDrawerItemWidget(int pos) {
     switch (pos) {
@@ -40,8 +59,9 @@ class AppState extends State<MyApp>{
       case 1:
         return new LoginScreen();
       case 2:
+        return new RegisterScreen();
+      case 3 :
         return new ThirdFragment();
-
       default:
         return new Text("Error");
     }
@@ -78,10 +98,11 @@ class AppState extends State<MyApp>{
     return MaterialApp(
       home: Scaffold(
         body: _getDrawerItemWidget(_selectedDrawerIndex),//ImageList(images),
-        floatingActionButton: FloatingActionButton(
+        /*floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: fetchImage,
-        ),
+
+        ),*/
         appBar: AppBar(
           backgroundColor: Color(0xff5c6bc0),
           title: Text("Sranko"),
@@ -104,11 +125,46 @@ class AppState extends State<MyApp>{
               ),
             ),
             ),
-        bottomNavigationBar: Text(""),
+        bottomNavigationBar: FABBottomAppBar(
+          centerItemText: '添加',
+          color: Colors.grey,
+          selectedColor: Colors.red,
+          notchedShape: CircularNotchedRectangle(),
+          onTabSelected: _selectedTab,
+          items: [
+            FABBottomAppBarItem(iconData: Icons.star, text: '首頁'),
+            FABBottomAppBarItem(iconData: Icons.account_circle, text: '我的衣櫥'),
+            FABBottomAppBarItem(iconData: Icons.dashboard, text: '搭配'),
+            FABBottomAppBarItem(iconData: Icons.collections, text: '收集'),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: _buildFab(
+            context),
       ),
     );
   }
-
+  Widget _buildFab(BuildContext context) {
+    final icons = [ Icons.collections, Icons.camera_alt, Icons.search ];
+    return AnchoredOverlay(
+      showOverlay: true,
+      overlayBuilder: (context, offset) {
+        return CenterAbout(
+          position: Offset(offset.dx, offset.dy - icons.length * 35.0),
+          child: FabWithIcons(
+            icons: icons,
+            onIconTapped: _selectedFab,
+          ),
+        );
+      },
+      child: FloatingActionButton(
+        onPressed: () { },
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+        elevation: 2.0,
+      ),
+    );
+  }
 
 
 }

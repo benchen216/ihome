@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import '../Mixin/validation_mixin.dart';
 
-class LoginScreen extends StatefulWidget{
+class RegisterScreen extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return LoginScreenState();
+    return RegisterScreenState();
   }
 }
 
-class LoginScreenState extends State<LoginScreen> with Validation_mixin{
+class RegisterScreenState extends State<RegisterScreen> with Validation_mixin{
   final formKey = GlobalKey<FormState>();
   String password;
   String email;
