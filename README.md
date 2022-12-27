@@ -1,4 +1,4 @@
-# myflutter
+# ihome
 
 A new Flutter application.
 

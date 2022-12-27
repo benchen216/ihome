@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:myflutter/models/image_model.dart';
+import 'package:ihome/models/image_model.dart';
 
 class FirstFragment extends StatefulWidget {
   @override

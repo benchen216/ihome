@@ -37,7 +37,7 @@ class LoginScreenState extends State<LoginScreen> with Validation_mixin{
     return TextFormField(
       keyboardType:  TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: 'Email Address',
+        labelText: 'Email',
         hintText: "you@example.com",
       ),
       validator: validateEmail,
@@ -51,8 +51,8 @@ class LoginScreenState extends State<LoginScreen> with Validation_mixin{
     return TextFormField(
         obscureText: true,
         decoration: InputDecoration(
-          labelText: 'password',
-          hintText: "password",
+          labelText: '密碼',
+          hintText: "密碼",
         ),
       validator: validatePassword,
       onSaved: (String value){
@@ -63,8 +63,8 @@ class LoginScreenState extends State<LoginScreen> with Validation_mixin{
 
   Widget submitButton(){
     return RaisedButton(
-      color: Color(0xFFE1BEE7),
-      child: Text("Submit!!"),
+      color: Colors.indigoAccent,
+      child: Text("送出"),
       onPressed: (){
         if(formKey.currentState.validate()){
           formKey.currentState.save();
